@@ -2,7 +2,12 @@
 
 /* words */
 
-.S	; show stack
-quit	; exits
+* ".S"	  ; show stack
 
-Arithmetic: +, -, *, /
+* "quit"	; exits
+
+Arithmetic: 
+* "+"
+* "-"
+* "*"
+* "/"
