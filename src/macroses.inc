@@ -34,3 +34,7 @@
     xt_%2:
         dq xt_docol
 %endmacro
+
+%macro colon 2
+    colon %1, %2, 0
+%endmacro
