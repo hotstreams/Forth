@@ -2,7 +2,7 @@ ASM = nasm
 FLAGS = -f elf64 -g -I src/
 LINKER = ld
 
-SOURCES = src/interpret.asm
+SOURCES = src/forth.asm
 INCS = src/functions.inc src/words.inc src/macroses.inc
 OBJECTS = obj/forth.o
 

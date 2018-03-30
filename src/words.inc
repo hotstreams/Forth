@@ -1,7 +1,7 @@
 section .bss
 rs: resq 65536
-dict: resq 65536
 u_mem: resq 65536
+dict: resq 65536
 
 native ".S", show
 	mov rax, rsp
@@ -147,4 +147,47 @@ native "!", write
 native "@", read
     pop rax
     push qword [rax]
+    jmp next
+
+native ":", col
+    mov rax, [here]
+    mov rcx, [last_word]
+
+    ; define header
+    mov [rax], rcx          ; link to previous word
+
+    mov [last_word], rax    ; update last word
+
+    add rax, 8
+
+    push rax
+    call read_word
+    pop rax
+    mov rdi, word_buffer
+    mov rsi, rax
+    call string_copy        ; define name
+
+    mov rax, rsi
+    inc rax                 ; skip flag
+
+    ; define ex token
+    mov qword [rax], docol   ; docol
+    add rax, 8
+
+    mov byte [state], 1     ; compil mode now
+    mov [here], rax
+    jmp next
+
+native ";", semicol, 1
+    mov rax, [here]
+    mov qword [rax], xt_exit    ; add xt_exit to end of colon word
+    add rax, 8
+    mov [here], rax
+
+    mov byte [state], 0
+    jmp next
+
+native "lit", lit
+    push qword [pc]
+    add pc, 8
     jmp next

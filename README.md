@@ -28,6 +28,12 @@
 
 * "quit" ; exits
 
+* ":" ; start defining word
+
+* ";" ; end of definition IMMEDIATE
+
+* "lit" "n" ; push n   
+
 Arithmetic:
 * "+"       ( a b -- [a + b] )
 * "-"       ( a b -- [a - b] )
