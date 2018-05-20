@@ -6,11 +6,13 @@
 %endmacro
 
 ; native words
-; %1 - name, %2 - id, %3 - flags
+; %1 - name, %2 - id, %3 - flag
+; | link | \0 | name | \0 | flag | impl |
 %macro native 3
     section .data
     w_%2:
         previous %2
+        db 0
         db %1, 0
         db %3
     xt_%2:
@@ -24,15 +26,16 @@
 %endmacro
 
 ; colon words
-
+; | link | \0 | name | \0 | flag | docol_impl | tokens ... | xt_exit
 %macro colon 3
     section .data
     w_%2:
         previous %2
+ 	db 0
         db %1, 0
         db %3
     xt_%2:
-        dq xt_docol
+        dq docol
 %endmacro
 
 %macro colon 2

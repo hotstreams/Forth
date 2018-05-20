@@ -1,7 +1,3 @@
-section .data
-word_buffer times 256 db 0
-
-
 section .text
 string_length:
 	xor rax, rax
@@ -105,33 +101,55 @@ read_char:
 	ret
 
 section .text
+
 read_word:
-	xor r9, r9
-	mov qword [word_buffer], 0x00000000
-.loop:
-	xor rax, rax
-	xor r8, r8
-	call read_char
-	cmp al, 0x20
-	jz .check
-	cmp al, 0xA
-	jz .check
-	cmp al, 0x9
-	jz .check
-	lea r8, [word_buffer+r9]
-	mov byte [r8], al
-	test rax, rax
-	jz .end
-	inc r9
-	jmp .loop
-.check:
-	test r9, r9
-	jz .loop
-	jmp .end
-.end:
-	mov rax, word_buffer
-	mov rdx, r9
-	ret
+    push r14
+    xor r14, r14 
+
+    .A:
+    push rdi
+    call read_char
+    pop rdi
+    cmp al, ' '
+    je .A
+    cmp al, 10
+    je .A
+    cmp al, 13
+    je .A 
+    cmp al, 9 
+    je .A
+    test al, al
+    jz .C
+
+    .B:
+    mov byte [rdi + r14], al
+    inc r14
+
+    push rdi
+    call read_char
+    pop rdi
+    cmp al, ' '
+    je .C
+    cmp al, 10
+    je .C
+    cmp al, 13
+    je .C 
+    cmp al, 9
+    je .C
+    test al, al
+    jz .C
+    cmp r14, 254
+    je .C 
+
+    jmp .B
+
+    .C:
+    mov byte [rdi + r14], 0
+    mov rax, rdi 
+   
+    mov rdx, r14 
+    pop r14
+    ret
 
 parse_uint:
 	xor r9, r9
@@ -199,38 +217,49 @@ string_copy:
 .end:
     ret
 
-; find word in dict
-; word_buffer <- word
-; w_word or 0 -> rax
+print_no_word:
+    mov rdi, word_buffer
+    call print_string
+    mov rdi, no_word
+    call print_string
+    ret
+
+; rdi <- word
+; w_word -> rax
 find_word:
-    xor rax, rax
-    mov rax, [last_word]
+    mov rsi, [last_word]
+
+    mov rax, [state]
+    test rax, rax
+    jz .loop
+    mov rsi, [rsi]
 .loop:
-    push rax
-    add rax, 8
-    mov rdi, rax
-    mov rsi, word_buffer
-	call string_equals
+    push rdi
+    push rsi
 
-	test rax, rax
-	jnz .found
+    add rsi, 9
+    call string_equals
 
-	pop rax
-	mov rax, [rax]
-	test rax, rax
-	jnz .loop
+    pop rsi
+    pop rdi
+
+    test rax, rax
+    jnz .found
+
+    mov rsi, [rsi]
+    test rsi, rsi
+    jnz .loop
 
     xor rax, rax
     ret
 .found:
-    pop rax
+    mov rax, rsi
     ret
 
-; code from address
 ; rdi <- w_word
-; xt_word -> rax
+; xt -> rax
 cfa:
-    add rdi, 8
+    add rdi, 9
     call string_length
     add rdi, rax
     add rdi, 2
