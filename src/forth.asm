@@ -29,8 +29,12 @@ interpreter_loop:
     	cmp qword [state], 0  		; check mode
     	jne compiler_loop
 
+	xor rax, rax
+	mov qword [word_buffer], rax
 	mov rdi, word_buffer
-	call read_word		    	; word_buffer <- stdin			            		 
+	call read_word		    	; word_buffer <- stdin
+	cmp qword [word_buffer], 0x00
+	jz .EOF			            		 
 	call find_word			; try as defined word
 					; rax <- w_word
 	test rax, rax
@@ -56,6 +60,10 @@ interpreter_loop:
 	call print_no_word
 	mov pc, xt_interpreter
 	jmp next
+.EOF:
+	mov rax, 60
+    	xor rdi, rdi
+    	syscall
 
 
 compiler_loop:

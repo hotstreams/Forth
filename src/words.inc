@@ -395,19 +395,19 @@ native ";", semicol, 1
     	mov [here], rax
     	jmp next
     	
-colon "IMMEDIATE", immediate
-    	dq xt_last_word
-    	dq xt_read
-    	dq xt_cfa
-    	dq xt_lit, 1
-    	dq xt_minus
-    	dq xt_dup
-    	dq xt_read_c
-    	dq xt_lit, 1
-    	dq xt_or
-    	dq xt_swap
-    	dq xt_write_c
-    	dq xt_exit
+;colon "IMMEDIATE", immediate
+;    	dq xt_last_word
+;    	dq xt_read
+;    	dq xt_cfa
+;    	dq xt_lit, 1
+;    	dq xt_minus
+;    	dq xt_dup
+;    	dq xt_read_c
+;    	dq xt_lit, 1
+;    	dq xt_or
+;    	dq xt_swap
+;    	dq xt_write_c
+;    	dq xt_exit
  
 native "push_xt_branch", p_xtbranch
     	push xt_branch
@@ -417,28 +417,28 @@ native "push_xt_branch0", p_xtbranch0
     	push xt_branch0
     	jmp next
 
-colon "if", if, 1
-    	dq xt_p_xtbranch0
-    	dq xt_comma
-    	dq xt_here
-    	dq xt_lit, 0
-    	dq xt_comma
-    	dq xt_exit
+;colon "if", if, 1
+;    	dq xt_p_xtbranch0
+;    	dq xt_comma
+;    	dq xt_here
+;    	dq xt_lit, 0
+;    	dq xt_comma
+;    	dq xt_exit
 
-colon "else", else, 1
-    	dq xt_p_xtbranch
-    	dq xt_comma
-    	dq xt_here
-    	dq xt_lit, 0
-    	dq xt_comma
-    	dq xt_swap, xt_here, xt_swap, xt_write
-    	dq xt_exit
+;colon "else", else, 1
+;    	dq xt_p_xtbranch
+;    	dq xt_comma
+;    	dq xt_here
+;    	dq xt_lit, 0
+;    	dq xt_comma
+;    	dq xt_swap, xt_here, xt_swap, xt_write
+;    	dq xt_exit
     
-colon "then", then, 1
-    	dq xt_here
-    	dq xt_swap
-    	dq xt_write
-    	dq xt_exit
+;colon "then", then, 1
+;    	dq xt_here
+;    	dq xt_swap
+;    	dq xt_write
+;    	dq xt_exit
 
 ; print ex tokens of colon word
 ; example:
