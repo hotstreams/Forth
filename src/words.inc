@@ -409,13 +409,13 @@ native ";", semicol, 1
 ;    	dq xt_write_c
 ;    	dq xt_exit
  
-native "push_xt_branch", p_xtbranch
-    	push xt_branch
-    	jmp next
+;native "push_xt_branch", p_xtbranch
+;    	push xt_branch
+;    	jmp next
 
-native "push_xt_branch0", p_xtbranch0
-    	push xt_branch0
-    	jmp next
+;native "push_xt_branch0", p_xtbranch0
+;    	push xt_branch0
+;    	jmp next
 
 ;colon "if", if, 1
 ;    	dq xt_p_xtbranch0

@@ -6,13 +6,13 @@
 ;
 
 : if
-	push_xt_branch0 ,
+	' branch0 ,
 	here_addr 0 ,
 ;
 IMMEDIATE
 
 : else
-	push_xt_branch ,
+	' branch ,
 	here_addr 0 ,
 	swap here_addr swap !
 ;
@@ -29,7 +29,7 @@ IMMEDIATE
 IMMEDIATE
 
 : until
-	push_xt_branch0 ,
+	' branch0 ,
 	,
 ;
 IMMEDIATE
@@ -40,16 +40,16 @@ IMMEDIATE
 IMMEDIATE
 
 : endcond
-	push_xt_branch0 ,
+	' branch0 ,
 	here_addr 0 ,
-	push_xt_branch ,
+	' branch ,
 	here_addr 0 ,
 	rot here_addr
 ;
 IMMEDIATE
 
 : endloop
-	push_xt_branch ,
+	' branch ,
 	swap here_addr 0 , !	
 	rot rot
 	here_addr swap !
@@ -57,7 +57,7 @@ IMMEDIATE
 IMMEDIATE
 
 : endfor
-	push_xt_branch ,
+	' branch ,
 	swap here_addr 0 , !
 	here_addr swap !
 ;
